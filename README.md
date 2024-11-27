@@ -1,44 +1,40 @@
-# What does this program do?
+# Image Processing with a 9x9 Filter to Generate 9 Scaled Images
 
-1.This program processes an image to divide it into 9 smaller images, each of size 100×100 pixels. Here's what happens step by step:
+This Python program processes an input image, resizing it to 900×900 pixels, and uses a 9×9 filter to generate 9 smaller 100×100 images. this approach uses the filter to systematically sample pixels from specific locations in the original image and maps them into distinct output images.
 
-2.Resize Input Image: The program first checks the dimensions of the input image. If it's not 900×900 pixels, it resizes it to ensure it matches the required dimensions.
+# Key Features
 
-3.Create Empty Output Images: Nine blank images of size 100×100 are created, which will be populated with data extracted from the original image.
+1.Image Resizing
+The program ensures the input image is resized to 900×900 pixels, making it compatible with the filtering process
 
-4.Apply a 3×3 Matrix as a Sliding Filter: A 3×3 filter (or matrix) slides over the 900×900 image, moving 3 pixels at a time horizontally and vertically. At each step:
+2.Filter-Based Sampling
 
-+The top-left pixel from the 3×3 block is selected.
-+This pixel's value is placed in the corresponding location in one of the 100×100 output images.
+ +A 9×9 filter is applied, starting at different positions for each of the 9 output images.
+ +For each output image, pixels are selected with a step size of 9, ensuring no overlap or repeated pixels.
+ 
+3.Output Images
 
-5.Repeat for All Output Images: The process is repeated 9 times, each time selecting a different pixel within the 3×3 block as the representative pixel for the current output image.
++The program creates 9 blank 100×100 images.
++Each image represents a scaled version of the original but sampled from a unique starting point.
 
-6.Display the Images: Finally, the original image and the 9 generated images are displayed.
+# How It Works
 
-# How to use this program?
+1.Input:The user provides the path to the input image.The image is resized to 900×900 if necessary.
 
-1.Install Required Library: Ensure you have the Pillow library installed, which is used for image processing. Run the following command in your environment to install it:
+2.Filter Application: 
+
++The program divides the original image into a grid of 9×9.
++Each filter starts at a unique position and samples pixels based on the grid.
++The sampled pixels are mapped into their respective positions in one of the 100×100 output images
+
+3.Output: After processing, the 9 output images are displayed one by one.
+
+# How to Run
+
++Ensure you have the Pillow library installed using:
 pip install pillow
-2.Run the Program: Execute the program in a Python environment or Jupyter Notebook/Google Colab. When prompted:
- 
- +Enter the full file path of the input image you want to process.
- 
-3.View the Results: After processing, 9 smaller images will pop up one by one, showing the divided parts of the original image.
-
-# Example Workflow
-
-1.Input: Suppose you provide an image example.jpg that is 1200×1200. The program will resize it to 900×900.
-
-2.Processing: The program divides the resized image into 3×3 sections. For each section, a 3×3 filter will:
-
-+Extract specific pixels (starting with the top-left).
-+Map those pixels into one of the 100×100 images.
-
-3.Output: You will see the original image and the 9 smaller images representing different views of the original image.
++Execute the script and provide the path to your image when prompted.
 
 # What is this program useful for?
 
-This program can be helpful for:
-+Image preprocessing in machine learning or computer vision tasks.
-+Breaking down images for analysis or reconstruction.
-+Visualizing how sliding window filters process images.
+This program is ideal for creating scaled versions of an image where each output image captures details from different parts of the original. The unique sampling strategy ensures each image highlights a specific perspective of the source.
