@@ -1,45 +1,38 @@
 from PIL import Image
 
-def process_image_to_9_sections(image_path):
+def process_image_with_9x9_filter(image_path):
     try:
-        # Open the image
+      
         img = Image.open(image_path)
 
-        # Resize the image to 900x900 if necessary
         if img.size != (900, 900):
             print("Resizing the image to 900x900 pixels...")
             img = img.resize((900, 900))
 
-        # Initialize a list to store the 9 output images
+       
+        pixels = img.load()
+
+     
         output_images = [Image.new("RGB", (100, 100)) for _ in range(9)]
+        output_pixels = [img.load() for img in output_images]
 
-        for section_row in range(3):  # Rows of the 9 sections
-            for section_col in range(3):  # Columns of the 9 sections
+        for filter_index in range(9):
+            filter_row = filter_index // 3  
+            filter_col = filter_index % 3  
 
-                section_index = section_row * 3 + section_col
-                section_start_x = section_col * 300
-                section_start_y = section_row * 300
 
-                # Populate the corresponding output image
-                for y in range(0, 300, 3):  # Step by 3 vertically
-                    for x in range(0, 300, 3):  # Step by 3 horizontally
+            filter_start_x = filter_col * 3
+            filter_start_y = filter_row * 3
 
-                        block = img.crop((
-                            section_start_x + x,
-                            section_start_y + y,
-                            section_start_x + x + 3,
-                            section_start_y + y + 3
-                        ))
+            for out_y in range(100):
+                for out_x in range(100):
 
-                        # Compute the destination pixel in the output image
-                        dest_x = x // 3
-                        dest_y = y // 3
+                    orig_x = filter_start_x + out_x * 9
+                    orig_y = filter_start_y + out_y * 9
 
-                        # Resize the 3x3 block to 1x1 pixel and paste it
-                        average_pixel = block.resize((1, 1))
-                        output_images[section_index].paste(average_pixel, (dest_x, dest_y))
+                    if orig_x < 900 and orig_y < 900:
+                        output_pixels[filter_index][out_x, out_y] = pixels[orig_x, orig_y]
 
-        # Display the output images
         for i, output_img in enumerate(output_images):
             output_img.show(title=f"Output Image {i + 1}")
 
@@ -47,9 +40,9 @@ def process_image_to_9_sections(image_path):
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    # Get the image path from the user
+
     input_image = input("Enter the path to the image: ").strip()
 
-    # Process the image into 9 sections
-    process_image_to_9_sections(input_image)
+    process_image_with_9x9_filter(input_image)
+
 
